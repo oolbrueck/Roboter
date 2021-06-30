@@ -2,9 +2,9 @@ import RPi.GPIO as GPIO
 import time
 import Move
 from Move import Move
-from MoveStatus import MoveStatus
-import moveThread
-from moveThread import moveThread
+import ThreadController
+from ThreadController import ThreadController
+import AlignmentController
 
 def main():
     move = Move()
@@ -17,25 +17,30 @@ def main():
 #     t2 = moveThread(1, "t1", "secondAxis", 180)
 #     t2.start()
     time.sleep(1)
-    t3 = moveThread(1, "t1", "searchingHead", 90)
+#    t3 = moveThread(1, "t1", "searchingHead", 90)
     #t3.start()
     #time.sleep(20)
-    Move.setSearchingHeadStatus(False)
+#    Move.setSearchingHeadStatus(False)
     
     
-    print("360 activated")
-    
-    GPIO.setmode(GPIO.BCM) #Pinlayout
-    GPIO.setup(24, GPIO.OUT)
-    pwm = GPIO.PWM(24, 50)
-    pwm.start(0)
-    pwm.ChangeDutyCycle(4)
-    time.sleep(5)
-    GPIO.cleanup()
-    
-    Move.setRightStatus(False)
-    Move.setLeftStatus(False)
-    print("stoped")
+#     print("360 activated")
+#     
+#     GPIO.setmode(GPIO.BCM) #Pinlayout
+#     GPIO.setup(24, GPIO.OUT)
+#     pwm = GPIO.PWM(24, 50)
+#     pwm.start(0)
+#     pwm.ChangeDutyCycle(4)
+#     time.sleep(5)
+#     GPIO.cleanup()
+#     
+#     Move.setRightStatus(False)
+#     Move.setLeftStatus(False)
+#     print("stoped")
+
+t3 = ThreadController(1, "t1", "detectObject", 0)
+t3.start()
+time.sleep(4)
+AlignmentController.objectFollowing()
     
 if __name__ == '__main__':
     main()
